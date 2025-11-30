@@ -1,4 +1,4 @@
-module go-http-servere
+module go-rest
 
 go 1.24.4
 

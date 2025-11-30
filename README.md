@@ -1,2 +1,2 @@
-# go-http-servere
+# go-rest
 Template for Golang

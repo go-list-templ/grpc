@@ -4,7 +4,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"log"
 
-	"go-http-servere/internal/config"
+	"go-rest/internal/config"
 	"go.uber.org/zap"
 )
 
