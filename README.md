@@ -1,2 +1,2 @@
-# go-http-template
+# go-http-servere
 Template for Golang

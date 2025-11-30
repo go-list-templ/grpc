@@ -8,22 +8,22 @@ FROM golang:1.24.4 as Builder
 
 COPY --from=Modules /go/pkg /go/pkg
 
-RUN useradd -u 10001 go-http-template
+RUN useradd -u 10001 go-http-servere
 
-RUN mkdir -p /go-http-template
-ADD . /go-http-template
-WORKDIR /go-http-template
+RUN mkdir -p /go-http-servere
+ADD . /go-http-servere
+WORKDIR /go-http-servere
 
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 \
-    go build -o ./bin/go-http-template ./cmd/go-http-template
+    go build -o ./bin/go-http-servere ./cmd/go-http-servere
 
 FROM scratch
 
 COPY --from=Builder /etc/passwd /etc/passwd
-USER go-http-template
+USER go-http-servere
 
-COPY --from=Builder /go-http-template/bin/go-http-template /go-http-template
+COPY --from=Builder /go-http-servere/bin/go-http-servere /go-http-servere
 
-CMD ["/go-http-template"]
+CMD ["/go-http-servere"]
 
 
