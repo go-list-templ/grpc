@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"go-rest/internal/handler"
 	"go.uber.org/zap"
 	"log"
 	"net"
@@ -38,7 +39,6 @@ func run() error {
 
 	logger.Info("initializing database")
 
-	//todo add auth from more variable
 	conn, err := sqlx.Open("pgx", cfg.DBUrl)
 	if err != nil {
 		logger.Panic("cant init db, err: ", zap.Error(err))
@@ -51,8 +51,7 @@ func run() error {
 	logger.Info("initializing router")
 
 	router := mux.NewRouter()
-	//todo add route
-	//router.HandleFunc("/", HomeHandler)
+	router.HandleFunc("/", handler.HomeHandler).Methods("GET")
 
 	logger.Info("initializing server")
 
