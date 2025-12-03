@@ -4,24 +4,24 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ilyakaznacheev/cleanenv"
+	"github.com/kelseyhightower/envconfig"
 )
 
 type Config struct {
-	ApiPort         string        `env:"API_PORT"`
-	DiagPort        string        `env:"DIAG_PORT"`
-	HTTPTimeout     time.Duration `env:"HTTP_TIMEOUT"`
-	IdleTimeout     time.Duration `env:"IDLE_TIMEOUT"`
-	ShutdownTimeout time.Duration `env:"SHUTDOWN_TIMEOUT"`
-	DBUrl           string        `env:"DB_URL"`
+	ApiPort         string        `envconfig:"API_PORT"`
+	DiagPort        string        `envconfig:"DIAG_PORT"`
+	HTTPTimeout     time.Duration `envconfig:"HTTP_TIMEOUT"`
+	IdleTimeout     time.Duration `envconfig:"IDLE_TIMEOUT"`
+	ShutdownTimeout time.Duration `envconfig:"SHUTDOWN_TIMEOUT"`
+	DBUrl           string        `envconfig:"DB_URL"`
 }
 
 func Load() (*Config, error) {
 	var cfg Config
 
-	err := cleanenv.ReadEnv(cfg)
+	err := envconfig.Process("", &cfg)
 	if err != nil {
-		return nil, fmt.Errorf("none exists .env file")
+		return nil, fmt.Errorf("can't process the config: %w", err)
 	}
 
 	return &cfg, nil

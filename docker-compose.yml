@@ -9,6 +9,11 @@ services:
       - "${DIAG_PORT}:${DIAG_PORT}"
     environment:
       - DB_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@db:5432/${DB_DATABASE}?sslmode=disable
+      - API_PORT=${API_PORT}
+      - DIAG_PORT=${DIAG_PORT}
+      - HTTP_TIMEOUT=${HTTP_TIMEOUT}
+      - IDLE_TIMEOUT=${IDLE_TIMEOUT}
+      - SHUTDOWN_TIMEOUT=${SHUTDOWN_TIMEOUT}
     depends_on:
       - db
       - flyway
