@@ -5,8 +5,8 @@ import (
 	"net"
 	"net/http"
 
+	"github.com/go-list-templ/grpc/internal/resource"
 	"github.com/jmoiron/sqlx"
-	"go-templ/internal/resource"
 	"go.uber.org/zap"
 )
 

@@ -2,14 +2,14 @@ package main
 
 import (
 	"context"
-	"go-templ/internal/server/grpc"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"go-templ/internal/resource"
-	"go-templ/internal/server/health"
+	"github.com/go-list-templ/grpc/internal/resource"
+	"github.com/go-list-templ/grpc/internal/server/grpc"
+	"github.com/go-list-templ/grpc/internal/server/health"
 	"go.uber.org/zap"
 )
 

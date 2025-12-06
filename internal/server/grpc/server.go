@@ -6,8 +6,8 @@ import (
 
 	v1 "github.com/go-list-templ/proto/gen/api/user/v1"
 
-	"go-templ/internal/resource"
-	"go-templ/internal/service"
+	"github.com/go-list-templ/grpc/internal/resource"
+	"github.com/go-list-templ/grpc/internal/service"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )
