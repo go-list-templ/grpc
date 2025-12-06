@@ -15,7 +15,6 @@ func NewUserService() *UserService {
 }
 
 func (s *UserService) AllUsers(ctx context.Context, req *v1.AllUsersRequest) (*v1.AllUsersResponse, error) {
-
 	return &v1.AllUsersResponse{
 		Users: []*v1.User{
 			{

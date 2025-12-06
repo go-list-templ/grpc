@@ -2,11 +2,12 @@ package grpc
 
 import (
 	"context"
-	v1 "github.com/go-list-templ/proto/gen/api/user/v1"
-	"go-templ/internal/service"
 	"net"
 
+	v1 "github.com/go-list-templ/proto/gen/api/user/v1"
+
 	"go-templ/internal/resource"
+	"go-templ/internal/service"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )

@@ -11,10 +11,10 @@ import (
 )
 
 type Server struct {
-	server   http.Server
-	postgres *sqlx.DB
-	logger   *zap.Logger
-	errors   chan error
+	server http.Server
+	db     *sqlx.DB
+	logger *zap.Logger
+	errors chan error
 }
 
 func NewServer(cfg *resource.Config, log *zap.Logger, pg *sqlx.DB) *Server {
@@ -26,9 +26,9 @@ func NewServer(cfg *resource.Config, log *zap.Logger, pg *sqlx.DB) *Server {
 			Addr:    net.JoinHostPort("", cfg.DiagPort),
 			Handler: nil,
 		},
-		postgres: pg,
-		errors:   make(chan error, 1),
-		logger:   log,
+		db:     pg,
+		errors: make(chan error, 1),
+		logger: log,
 	}
 }
 
@@ -51,9 +51,9 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func readyHandler(logger *zap.Logger, pg *sqlx.DB) func(http.ResponseWriter, *http.Request) {
+func readyHandler(logger *zap.Logger, db *sqlx.DB) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		if err := pg.Ping(); err != nil {
+		if err := db.Ping(); err != nil {
 			logger.Error("cant pinging postgres", zap.Error(err))
 		}
 
