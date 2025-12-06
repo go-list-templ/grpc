@@ -23,7 +23,7 @@ func NewServer(cfg *resource.Config, log *zap.Logger, pg *sqlx.DB) *Server {
 
 	return &Server{
 		server: http.Server{
-			Addr:    net.JoinHostPort("", cfg.DiagPort),
+			Addr:    net.JoinHostPort("", cfg.HealthPort),
 			Handler: nil,
 		},
 		db:     pg,

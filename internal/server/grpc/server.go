@@ -41,7 +41,7 @@ func (s *Server) Notify() <-chan error {
 
 func (s *Server) Start() {
 	go func() {
-		lis, err := net.Listen("tcp", net.JoinHostPort("", s.config.ApiPort))
+		lis, err := net.Listen("tcp", net.JoinHostPort("", s.config.GRPCPort))
 		if err != nil {
 			s.errors <- err
 		}

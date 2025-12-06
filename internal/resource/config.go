@@ -8,8 +8,8 @@ import (
 )
 
 type Config struct {
-	ApiPort         string        `envconfig:"API_PORT"`
-	DiagPort        string        `envconfig:"DIAG_PORT"`
+	GRPCPort        string        `envconfig:"GRPC_PORT"`
+	HealthPort      string        `envconfig:"HEALTH_PORT"`
 	DBUrl           string        `envconfig:"DB_URL"`
 	DbMaxConn       int           `envconfig:"DB_MAX_CONN"`
 	DbMaxIdle       int           `envconfig:"DB_MAX_IDLE"`
