@@ -1,5 +1,7 @@
+APP_VERSION := $$(shell git describe --tags --always --dirty)
+
 build:
-	docker compose --env-file .env up -d --build
+	docker compose --env-file .env up -d --build --build-arg APP_VERSION=$${APP_VERSION}
 docker-lint:
 	docker run --rm -i -v ./hadolint.yaml:/.config/hadolint.yaml hadolint/hadolint < .docker/go/Dockerfile
 lint:

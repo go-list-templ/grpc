@@ -8,6 +8,7 @@ services:
       - "${GRPC_PORT}:${GRPC_PORT}"
       - "${HEALTH_PORT}:${HEALTH_PORT}"
     environment:
+      - APP_NAME=${APP_NAME}
       - DB_URL=${DB_DRIVER}://${DB_USERNAME}:${DB_PASSWORD}@db:5432/${DB_DATABASE}?sslmode=disable
       - DB_DRIVER=${DB_DRIVER}
       - GRPC_PORT=${GRPC_PORT}

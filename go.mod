@@ -4,7 +4,6 @@ go 1.24.4
 
 require (
 	github.com/go-list-templ/proto v0.0.1
-	github.com/jmoiron/sqlx v1.4.0
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/lib/pq v1.10.9
 	go.uber.org/zap v1.27.1
@@ -12,6 +11,7 @@ require (
 )
 
 require (
+	github.com/google/uuid v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/net v0.47.0 // indirect
 	golang.org/x/sys v0.38.0 // indirect
