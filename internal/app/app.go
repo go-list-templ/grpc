@@ -2,6 +2,8 @@ package app
 
 import (
 	"github.com/go-list-templ/grpc/config"
+	"github.com/go-list-templ/grpc/internal/infra/cache"
+	"github.com/go-list-templ/grpc/internal/infra/storage"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
@@ -26,9 +28,16 @@ func Run() error {
 
 	logger.Info("initializing postgres")
 
-	pg, err := resource.NewPostgres(cfg)
+	pg, err := storage.NewPostgres(&cfg.DB)
 	if err != nil {
 		logger.Panic("cant init postgres", zap.Error(err))
+	}
+
+	logger.Info("initializing redis")
+
+	redis, err := cache.NewRedis(&cfg.Redis)
+	if err != nil {
+		logger.Panic("cant init redis", zap.Error(err))
 	}
 
 	logger.Info("initializing servers")
@@ -52,7 +61,14 @@ func Run() error {
 		logger.Error("Received an error from the grpc server", zap.Error(err))
 	}
 
-	logger.Info("stopping server")
+	logger.Info("closing infrastructures")
+
+	pg.Close()
+	if err = redis.Close(); err != nil {
+		logger.Error("redis close failed", zap.Error(err))
+	}
+
+	logger.Info("stopping servers")
 
 	ctx, cancel := context.WithTimeout(context.Background(), cfg.ShutdownTimeout)
 	defer cancel()
@@ -61,12 +77,6 @@ func Run() error {
 
 	if err = healthServer.Stop(ctx); err != nil {
 		logger.Error("server stopped with error", zap.Error(err))
-	}
-
-	logger.Info("closing resources")
-
-	if err = pg.Close(); err != nil {
-		logger.Error("postgres close failed", zap.Error(err))
 	}
 
 	logger.Info("The app is calling the last defers and will be stopped")

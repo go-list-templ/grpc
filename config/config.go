@@ -1,4 +1,4 @@
-package app
+package config
 
 import (
 	"fmt"
@@ -9,12 +9,16 @@ import (
 
 type (
 	DB struct {
-		DBUrl         string        `envconfig:"DB_URL"`
-		DBDriver      string        `envconfig:"DB_DRIVER"`
-		DbMaxConn     int           `envconfig:"DB_MAX_CONN"`
-		DbMaxIdle     int           `envconfig:"DB_MAX_IDLE"`
-		DbMaxConnTime time.Duration `envconfig:"DB_MAX_CONN_TIME"`
-		DbMaxIdleTime time.Duration `envconfig:"DB_MAX_IDLE_TIME"`
+		Url         string        `envconfig:"DB_URL"`
+		Driver      string        `envconfig:"DB_DRIVER"`
+		MaxConn     int           `envconfig:"DB_MAX_CONN"`
+		MaxIdle     int           `envconfig:"DB_MAX_IDLE"`
+		MaxConnTime time.Duration `envconfig:"DB_MAX_CONN_TIME"`
+		MaxIdleTime time.Duration `envconfig:"DB_MAX_IDLE_TIME"`
+	}
+
+	Redis struct {
+		Address string `envconfig:"REDIS_ADDRESS"`
 	}
 
 	App struct {
@@ -34,6 +38,7 @@ type (
 		App    App
 		Server Server
 		DB     DB
+		Redis  Redis
 	}
 )
 
