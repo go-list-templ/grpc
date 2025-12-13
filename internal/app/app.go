@@ -27,8 +27,6 @@ func Run() error {
 		logger.Panic("cant init config", zap.Error(err))
 	}
 
-	logger.Info("conf: ", zap.Any("config", cfg))
-
 	logger.Info("initializing postgres")
 
 	pg, err := storage.NewPostgres(&cfg.DB)
