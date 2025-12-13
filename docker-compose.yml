@@ -21,6 +21,7 @@ services:
       - REDIS_ADDRESS=${REDIS_HOST}:${REDIS_PORT}
     depends_on:
       - db
+      - kvrocks
       - dbmate
     networks:
       - app
@@ -62,20 +63,6 @@ services:
       retries: 30
     expose:
       - '${REDIS_PORT}'
-
-  dbmate:
-    container_name: dbmate.${APP_NAME}
-    image: amacneil/dbmate:2.28
-    entrypoint: [ "dbmate", "up" ]
-    environment:
-      - DATABASE_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@db:5432/${DB_DATABASE}?sslmode=disable
-    volumes:
-      - ./db:/db
-    depends_on:
-      - db
-    networks:
-      - app
-
 volumes:
   pg_data:
   kvrocks_data:
