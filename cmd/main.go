@@ -10,8 +10,8 @@ import (
 	"github.com/go-list-templ/grpc/config"
 	"github.com/go-list-templ/grpc/internal/controller/grpc"
 	"github.com/go-list-templ/grpc/internal/controller/http"
-	"github.com/go-list-templ/grpc/internal/infra/cache"
-	"github.com/go-list-templ/grpc/internal/infra/storage"
+	"github.com/go-list-templ/grpc/internal/infra/persistent/postgres"
+	"github.com/go-list-templ/grpc/internal/infra/persistent/redis"
 	"go.uber.org/zap"
 )
 
@@ -36,17 +36,23 @@ func run() error {
 
 	logger.Info("initializing postgres")
 
-	pg, err := storage.NewPostgres(&cfg.DB)
+	pg, err := postgres.New(&cfg.DB)
 	if err != nil {
 		logger.Panic("cant init postgres", zap.Error(err))
 	}
+	pg.Close()
 
 	logger.Info("initializing redis")
 
-	redis, err := cache.NewRedis(&cfg.Redis)
+	rd, err := redis.New(&cfg.Redis)
 	if err != nil {
 		logger.Panic("cant init redis", zap.Error(err))
 	}
+	defer func() {
+		if err = rd.Close(); err != nil {
+			logger.Error("redis close failed", zap.Error(err))
+		}
+	}()
 
 	logger.Info("initializing servers")
 
@@ -67,13 +73,6 @@ func run() error {
 		logger.Error("Received an error from the health server", zap.Error(err))
 	case err = <-grpcServer.Notify():
 		logger.Error("Received an error from the grpc server", zap.Error(err))
-	}
-
-	logger.Info("closing infrastructures")
-
-	pg.Close()
-	if err = redis.Close(); err != nil {
-		logger.Error("redis close failed", zap.Error(err))
 	}
 
 	logger.Info("stopping servers")

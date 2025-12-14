@@ -1,4 +1,4 @@
-package storage
+package postgres
 
 import (
 	"context"
@@ -11,7 +11,7 @@ type Postgres struct {
 	*pgxpool.Pool
 }
 
-func NewPostgres(cfg *config.DB) (*Postgres, error) {
+func New(cfg *config.DB) (*Postgres, error) {
 	conf, err := pgxpool.ParseConfig(cfg.URL)
 	if err != nil {
 		return nil, err

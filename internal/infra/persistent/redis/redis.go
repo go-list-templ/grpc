@@ -1,4 +1,4 @@
-package cache
+package redis
 
 import (
 	"context"
@@ -11,7 +11,7 @@ type Redis struct {
 	*redis.Client
 }
 
-func NewRedis(cfg *config.Redis) (*Redis, error) {
+func New(cfg *config.Redis) (*Redis, error) {
 	client := redis.NewClient(&redis.Options{
 		Addr:     cfg.Address,
 		Password: "",
