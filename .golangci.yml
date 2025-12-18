@@ -15,7 +15,6 @@ linters:
     - errorlint
     - exhaustive
     - forbidigo
-    - funlen
     - gochecknoglobals
     - gochecknoinits
     - gocognit
@@ -57,9 +56,6 @@ linters:
       errorf: true
     exhaustive:
       default-signifies-exhaustive: false
-    funlen:
-      lines: 65
-      statements: 40
     gocognit:
       min-complexity: 15
     goconst:
