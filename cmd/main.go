@@ -21,7 +21,7 @@ func main() {
 	}
 }
 
-// nolint:funlen,errcheck
+// nolint:errcheck
 func run() error {
 	logger, _ := zap.NewProduction()
 	defer logger.Sync()
