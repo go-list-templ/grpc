@@ -22,7 +22,7 @@ func (r *UserPostgresRepo) Store(ctx context.Context, user entity.User) error {
 		VALUES ($1, $2, $3, $4, $5)
 	`
 
-	_, err := r.Pool.Exec(ctx, query,
+	_, err := r.Exec(ctx, query,
 		user.ID.Value(),
 		user.Name.Value(),
 		user.Email.Value(),
@@ -43,7 +43,7 @@ func (r *UserPostgresRepo) Change(ctx context.Context, user entity.User) (entity
 		UPDATE users SET name = $2, email = $3, updated_at = $4 WHERE id = $1	
 	`
 
-	err := r.Pool.QueryRow(ctx, query,
+	err := r.QueryRow(ctx, query,
 		user.ID.Value(),
 		user.Name.Value(),
 		user.Email.Value(),
@@ -62,7 +62,7 @@ func (r *UserPostgresRepo) Destroy(ctx context.Context, id vo.ID) error {
 	return err
 }
 
-func (r *UserPostgresRepo) GetById(ctx context.Context, id vo.ID) (entity.User, error) {
+func (r *UserPostgresRepo) GetByID(ctx context.Context, id vo.ID) (entity.User, error) {
 	var user entity.User
 
 	err := r.Pool.QueryRow(ctx, `SELECT * FROM users WHERE id = $1`, id).Scan(&user)
