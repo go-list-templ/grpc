@@ -26,20 +26,20 @@ func (u *UseCase) All(ctx context.Context) ([]entity.User, error) {
 }
 
 func (u *UseCase) Create(ctx context.Context, user entity.User) (entity.User, error) {
-	err := u.repo.Store(ctx, user)
+	createdUser, err := u.repo.Store(ctx, user)
 	if err != nil {
-		return entity.User{}, err
+		return user, err
 	}
 
-	return user, nil
+	return createdUser, nil
 }
 
-func (u *UseCase) Delete(ctx context.Context, userId vo.ID) error {
-	return u.repo.Destroy(ctx, userId)
+func (u *UseCase) Delete(ctx context.Context, userID vo.ID) error {
+	return u.repo.Destroy(ctx, userID)
 }
 
-func (u *UseCase) Show(ctx context.Context, userId vo.ID) (entity.User, error) {
-	user, err := u.repo.GetById(ctx, userId)
+func (u *UseCase) Show(ctx context.Context, userID vo.ID) (entity.User, error) {
+	user, err := u.repo.GetByID(ctx, userID)
 	if err != nil {
 		return entity.User{}, err
 	}
