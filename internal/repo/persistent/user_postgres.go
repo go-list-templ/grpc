@@ -57,7 +57,7 @@ func (r *UserPostgresRepo) Change(ctx context.Context, user entity.User) (entity
 }
 
 func (r *UserPostgresRepo) Destroy(ctx context.Context, id vo.ID) error {
-	_, err := r.Pool.Exec(ctx, "DELETE FROM users WHERE id = $1", id)
+	_, err := r.Exec(ctx, "DELETE FROM users WHERE id = $1", id)
 
 	return err
 }
@@ -65,7 +65,7 @@ func (r *UserPostgresRepo) Destroy(ctx context.Context, id vo.ID) error {
 func (r *UserPostgresRepo) GetByID(ctx context.Context, id vo.ID) (entity.User, error) {
 	var user entity.User
 
-	err := r.Pool.QueryRow(ctx, `SELECT * FROM users WHERE id = $1`, id).Scan(&user)
+	err := r.QueryRow(ctx, `SELECT * FROM users WHERE id = $1`, id).Scan(&user)
 	if err != nil {
 		return user, err
 	}
@@ -76,7 +76,7 @@ func (r *UserPostgresRepo) GetByID(ctx context.Context, id vo.ID) (entity.User, 
 func (r *UserPostgresRepo) All(ctx context.Context) ([]entity.User, error) {
 	var users []entity.User
 
-	err := r.Pool.QueryRow(ctx, "SELECT * FROM users").Scan(&users)
+	err := r.QueryRow(ctx, "SELECT * FROM users").Scan(&users)
 	if err != nil {
 		return users, err
 	}
