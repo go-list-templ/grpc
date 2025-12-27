@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-list-templ/grpc/internal/domain/entity"
 	"github.com/go-list-templ/grpc/internal/domain/vo"
-	"github.com/go-list-templ/grpc/internal/infra/persistent/postgres"
+	"github.com/go-list-templ/grpc/pkg/postgres"
 )
 
 type UserPostgresRepo struct {

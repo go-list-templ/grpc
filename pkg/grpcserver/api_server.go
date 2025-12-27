@@ -7,27 +7,27 @@ import (
 	"google.golang.org/grpc"
 )
 
-type ApiServer struct {
+type APIServer struct {
 	server *grpc.Server
 	config *config.Server
 	errors chan error
 }
 
-func NewApiServer(cfg *config.Server) *ApiServer {
+func NewAPIServer(cfg *config.Server) *APIServer {
 	grpcServer := grpc.NewServer()
 
-	return &ApiServer{
+	return &APIServer{
 		server: grpcServer,
 		config: cfg,
 		errors: make(chan error, 1),
 	}
 }
 
-func (s *ApiServer) Notify() <-chan error {
+func (s *APIServer) Notify() <-chan error {
 	return s.errors
 }
 
-func (s *ApiServer) Start() {
+func (s *APIServer) Start() {
 	go func() {
 		lis, err := net.Listen("tcp", net.JoinHostPort("", s.config.GRPCPort))
 		if err != nil {
@@ -39,6 +39,6 @@ func (s *ApiServer) Start() {
 	}()
 }
 
-func (s *ApiServer) Stop() {
+func (s *APIServer) Stop() {
 	s.server.GracefulStop()
 }
