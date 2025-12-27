@@ -8,7 +8,7 @@ import (
 )
 
 type APIServer struct {
-	server *grpc.Server
+	Server *grpc.Server
 	config *config.Server
 	errors chan error
 }
@@ -17,7 +17,7 @@ func NewAPIServer(cfg *config.Server) *APIServer {
 	grpcServer := grpc.NewServer()
 
 	return &APIServer{
-		server: grpcServer,
+		Server: grpcServer,
 		config: cfg,
 		errors: make(chan error, 1),
 	}
@@ -34,11 +34,11 @@ func (s *APIServer) Start() {
 			s.errors <- err
 		}
 
-		s.errors <- s.server.Serve(lis)
+		s.errors <- s.Server.Serve(lis)
 		close(s.errors)
 	}()
 }
 
 func (s *APIServer) Stop() {
-	s.server.GracefulStop()
+	s.Server.GracefulStop()
 }

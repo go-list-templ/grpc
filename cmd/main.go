@@ -2,6 +2,9 @@ package main
 
 import (
 	"context"
+	"github.com/go-list-templ/grpc/internal/controller/grpc"
+	"github.com/go-list-templ/grpc/internal/repo/persistent"
+	"github.com/go-list-templ/grpc/internal/usecase/user"
 	"log"
 	"os"
 	"os/signal"
@@ -54,13 +57,21 @@ func run() error {
 		}
 	}()
 
+	logger.Info("initializing use case")
+
+	userUseCase := user.New(persistent.NewUserPostgresRepo(pg))
+
 	logger.Info("initializing servers")
 
-	grpcServer := grpcserver.NewApiServer(&cfg.Server)
+	grpcServer := grpcserver.NewAPIServer(&cfg.Server)
 	grpcServer.Start()
 
 	healthServer := httpserver.NewHealthServer(&cfg.Server)
 	healthServer.Start()
+
+	logger.Info("initializing routes")
+
+	grpc.NewRouter(grpcServer.Server, userUseCase, *logger)
 
 	logger.Info("server started successfully")
 
